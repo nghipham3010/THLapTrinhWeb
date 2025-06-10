@@ -1,0 +1,65 @@
+﻿@model BT_Buoi2.Models.Product
+
+@{
+    ViewData["Title"] = "Thêm sản phẩm";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-action="Add" enctype="multipart/form-data">
+    @* <<-- QUAN TRỌNG: enctype="multipart/form-data" *@
+    <div class="form-group">
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Price" class="control-label"></label>
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description" class="control-label"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CategoryId" class="control-label"></label>
+        <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories"></select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="imageUrl" class="control-label">Hình ảnh chính</label>
+        <input type="file" id="imageUrl" name="imageUrl" class="form-control" /> @* <<-- name="imageUrl" khớp với tham số IFormFile imageUrl trong controller *@
+        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+        @if (!string.IsNullOrEmpty(Model?.ImageUrl))
+        {
+            <img src="@Model.ImageUrl" alt="Hình ảnh chính" width="100" />
+        }
+    </div>
+
+    <div class="form-group">
+        <label for="imageUrls" class="control-label">Hình ảnh bổ sung</label>
+        <input type="file" id="imageUrls" name="imageUrls" multiple class="form-control" /> @* <<-- name="imageUrls" khớp với List<IFormFile> imageUrls và có 'multiple' *@
+        @* Hiển thị ảnh phụ hiện có (chỉ cho trang Update/Display) *@
+        @if (Model != null && Model.ImageUrls != null && Model.ImageUrls.Any())
+        {
+            <div class="mt-2">
+                <h6>Ảnh hiện có:</h6>
+                @foreach (var img in Model.ImageUrls)
+                {
+                    <img src="@img.Url" alt="Ảnh phụ" width="80" style="margin-right: 5px;" />
+                    @* Bạn có thể thêm nút xóa cho từng ảnh phụ ở đây nếu muốn *@
+                }
+            </div>
+        }
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Add" class="btn btn-primary" />
+    </div>
+</form>

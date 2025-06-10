@@ -1,0 +1,47 @@
+﻿@model BT_Buoi2.Models.Product
+@* REMOVE: @inject BT_Buoi2.Repositories.ICategoryRepository CategoryRepository *@
+@{
+    ViewData["Title"] = "Chi Tiết Sản Phẩm";
+    @* REMOVE: var category = CategoryRepository.GetAllCategories().FirstOrDefault(c => c.Id == Model.CategoryId); *@
+}
+<h1>Chi Tiết Sản Phẩm</h1>
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">Tên</dt>
+        <dd class="col-sm-10">@Model.Name</dd>
+        <dt class="col-sm-2">Giá</dt>
+        <dd class="col-sm-10">@Model.Price.ToString("C")</dd>
+        <dt class="col-sm-2">Mô Tả</dt>
+        <dd class="col-sm-10">@Model.Description</dd>
+        <dt class="col-sm-2">Danh Mục</dt>
+        @* Access Category directly from the Model, which is now eager-loaded *@
+        <dd class="col-sm-10">@(Model.Category?.Name ?? "Không xác định")</dd>
+        <dt class="col-sm-2">Hình Ảnh Chính</dt>
+        <dd class="col-sm-10">
+            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+            {
+                <img src="@Model.ImageUrl" alt="Hình ảnh chính" style="width: 300px; height: auto;" />
+            }
+            else
+            {
+                <span>Không có hình ảnh chính</span>
+            }
+        </dd>
+        <dt class="col-sm-2">Hình Ảnh Bổ Sung</dt>
+        <dd class="col-sm-10">
+            @if (Model.ImageUrls != null && Model.ImageUrls.Any())
+            {
+                @* Correctly access the Url property of each ProductImage object *@
+                @foreach (var productImage in Model.ImageUrls)
+                {
+                    <img src="@productImage.Url" alt="Hình ảnh bổ sung" style="width: 300px; height: auto; margin-right: 10px;" />
+                }
+            }
+            else
+            {
+                <span>Không có hình ảnh bổ sung</span>
+            }
+        </dd>
+    </dl>
+    <a asp-action="Index" class="btn btn-secondary">Quay lại danh sách</a>
+</div>
