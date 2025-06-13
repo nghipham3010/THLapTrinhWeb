@@ -1,47 +1,70 @@
 ﻿@model BT_Buoi2.Models.Product
-@* REMOVE: @inject BT_Buoi2.Repositories.ICategoryRepository CategoryRepository *@
+
 @{
     ViewData["Title"] = "Chi Tiết Sản Phẩm";
-    @* REMOVE: var category = CategoryRepository.GetAllCategories().FirstOrDefault(c => c.Id == Model.CategoryId); *@
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Đảm bảo sử dụng _Layout.cshtml để có CSS và font
 }
-<h1>Chi Tiết Sản Phẩm</h1>
-<div>
-    <dl class="row">
-        <dt class="col-sm-2">Tên</dt>
-        <dd class="col-sm-10">@Model.Name</dd>
-        <dt class="col-sm-2">Giá</dt>
-        <dd class="col-sm-10">@Model.Price.ToString("C")</dd>
-        <dt class="col-sm-2">Mô Tả</dt>
-        <dd class="col-sm-10">@Model.Description</dd>
-        <dt class="col-sm-2">Danh Mục</dt>
-        @* Access Category directly from the Model, which is now eager-loaded *@
-        <dd class="col-sm-10">@(Model.Category?.Name ?? "Không xác định")</dd>
-        <dt class="col-sm-2">Hình Ảnh Chính</dt>
-        <dd class="col-sm-10">
-            @if (!string.IsNullOrEmpty(Model.ImageUrl))
-            {
-                <img src="@Model.ImageUrl" alt="Hình ảnh chính" style="width: 300px; height: auto;" />
-            }
-            else
-            {
-                <span>Không có hình ảnh chính</span>
-            }
-        </dd>
-        <dt class="col-sm-2">Hình Ảnh Bổ Sung</dt>
-        <dd class="col-sm-10">
-            @if (Model.ImageUrls != null && Model.ImageUrls.Any())
-            {
-                @* Correctly access the Url property of each ProductImage object *@
-                @foreach (var productImage in Model.ImageUrls)
-                {
-                    <img src="@productImage.Url" alt="Hình ảnh bổ sung" style="width: 300px; height: auto; margin-right: 10px;" />
-                }
-            }
-            else
-            {
-                <span>Không có hình ảnh bổ sung</span>
-            }
-        </dd>
-    </dl>
-    <a asp-action="Index" class="btn btn-secondary">Quay lại danh sách</a>
+
+<div class="login-container">
+    @* Sử dụng class để căn giữa và có nền động *@
+    <div class="login-card text-center">
+        @* Sử dụng class card để tạo hiệu ứng nổi bật và căn giữa nội dung *@
+        <h1 class="mb-4">@ViewData["Title"]</h1> @* Tiêu đề chính của trang *@
+        <hr class="border-gray-700 mb-4" /> @* Điều chỉnh màu cho đường kẻ ngang *@
+
+        <div class="text-left mb-6">
+            @* Đặt text-left để nội dung dl không bị căn giữa *@
+            <dl class="row text-gray-300">
+                @* Màu chữ xám nhạt cho thông tin *@
+                <dt class="col-sm-4 font-semibold text-indigo-300">Tên:</dt> @* Tiêu đề thuộc tính màu indigo *@
+                <dd class="col-sm-8">@Model.Name</dd>
+
+                <dt class="col-sm-4 font-semibold text-indigo-300">Giá:</dt>
+                <dd class="col-sm-8">@Model.Price.ToString("C")</dd>
+
+                <dt class="col-sm-4 font-semibold text-indigo-300">Mô Tả:</dt>
+                <dd class="col-sm-8">@Model.Description</dd>
+
+                <dt class="col-sm-4 font-semibold text-indigo-300">Danh Mục:</dt>
+                @* Access Category directly from the Model, which is now eager-loaded *@
+                <dd class="col-sm-8">@(Model.Category?.Name ?? "Không xác định")</dd>
+
+                <dt class="col-sm-4 font-semibold text-indigo-300">Hình Ảnh Chính:</dt>
+                <dd class="col-sm-8">
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <img src="@Model.ImageUrl" alt="Hình ảnh chính" class="img-thumbnail rounded-lg shadow-md mt-2" style="max-width: 300px; height: auto;" />
+                    }
+                    else
+                    {
+                        <span>Không có hình ảnh chính</span>
+                    }
+                </dd>
+
+                <dt class="col-sm-4 font-semibold text-indigo-300">Hình Ảnh Bổ Sung:</dt>
+                <dd class="col-sm-8">
+                    @if (Model.ImageUrls != null && Model.ImageUrls.Any())
+                    {
+                        <div class="flex flex-wrap gap-3 mt-2">
+                            @* Dùng flexbox và gap để sắp xếp ảnh *@
+                            @* Correctly access the Url property of each ProductImage object *@
+                            @foreach (var productImage in Model.ImageUrls)
+                            {
+                                <img src="@productImage.Url" alt="Hình ảnh bổ sung" class="img-thumbnail rounded-lg shadow-sm" style="width: 200px; height: 150px; object-fit: cover;" />
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <span>Không có hình ảnh bổ sung</span>
+                    }
+                </dd>
+            </dl>
+        </div>
+
+        <div class="mt-5">
+            @* Thêm margin-top cho nút *@
+            <a asp-action="Index" class="btn btn-secondary btn-lg">Quay lại danh sách</a> @* Tăng kích thước nút *@
+        </div>
+    </div>
 </div>

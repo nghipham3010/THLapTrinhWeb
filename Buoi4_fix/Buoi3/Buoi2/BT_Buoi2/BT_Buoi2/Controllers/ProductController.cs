@@ -3,10 +3,11 @@ using BT_Buoi2.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization; // THÊM DÒNG NÀY
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
+using BT_Buoi2.Areas.Admin.Views; // THÊM DÒNG NÀY
 namespace BT_Buoi2.Controllers
 {
-    [Authorize]
     public class ProductController : Controller
     {
         private readonly IProductRepository _productRepository;
@@ -26,6 +27,7 @@ namespace BT_Buoi2.Controllers
         }
 
         // --- Action: Thêm sản phẩm mới (GET) ---
+        [Authorize(Roles = SD.Role_Admin)]
         public async Task<IActionResult> Add()
         {
             var categories = await _categoryRepository.GetAllAsync();
@@ -35,6 +37,7 @@ namespace BT_Buoi2.Controllers
 
         // --- Action: Thêm sản phẩm mới (POST) ---
         [HttpPost]
+        [Authorize(Roles = SD.Role_Admin)]
         public async Task<IActionResult> Add(Product product, IFormFile imageUrl, List<IFormFile> imageUrls)
         {
             // Bước 1: Loại bỏ lỗi ModelState tự động để tự xử lý việc binding ảnh
@@ -141,6 +144,7 @@ namespace BT_Buoi2.Controllers
 
         // --- Action: Sửa sản phẩm (GET) ---
         // Hiển thị form với thông tin sản phẩm hiện có để chỉnh sửa
+        [Authorize(Roles = SD.Role_Admin)]
         public async Task<IActionResult> Update(int id)
         {
             // Lấy sản phẩm cần sửa. Đảm bảo Include Category và ImageUrls
@@ -157,6 +161,7 @@ namespace BT_Buoi2.Controllers
         // --- Action: Sửa sản phẩm (POST) ---
         // Xử lý cập nhật thông tin sản phẩm và ảnh
         [HttpPost]
+        [Authorize(Roles = SD.Role_Admin)]
         public async Task<IActionResult> Update(Product product, IFormFile imageUrl, List<IFormFile> imageUrls)
         {
             // Bước 1: Tải sản phẩm gốc từ cơ sở dữ liệu
@@ -201,16 +206,10 @@ namespace BT_Buoi2.Controllers
                     existingProduct.ImageUrl = await SaveImage(imageUrl); // Gán URL ảnh mới
                 }
             }
-            // Nếu người dùng không chọn ảnh mới, ImageUrl cũ sẽ được giữ nguyên (từ existingProduct).
-
-            // Bước 5: Xử lý các hình ảnh bổ sung (ImageUrls)
-            // Logic này sẽ THÊM các ảnh mới được tải lên vào danh sách ảnh hiện có.
-            // (Chưa có logic để xóa ảnh phụ hiện có qua UI)
+            
             if (imageUrls != null && imageUrls.Any(f => f.Length > 0))
             {
-                // <<-- DÒNG NÀY LÀ BẮT BUỘC KHI `Product.ImageUrls` LÀ `List<ProductImage>?` (có thể null)
-                // Đảm bảo collection ImageUrls của existingProduct đã được khởi tạo.
-                // Nếu GetByIdAsync đã Include nó, thì nó không null; nếu không, thì khởi tạo.
+              
                 existingProduct.ImageUrls = existingProduct.ImageUrls ?? new List<ProductImage>();
 
                 foreach (var file in imageUrls.Where(f => f.Length > 0))
@@ -222,8 +221,7 @@ namespace BT_Buoi2.Controllers
                     else
                     {
                         string imageUrlPath = await SaveImage(file);
-                        // Tạo và thêm đối tượng ProductImage mới vào existingProduct.ImageUrls
-                        // EF Core sẽ nhận diện đây là một thực thể mới và thêm nó vào DB khi UpdateAsync được gọi.
+                       
                         existingProduct.ImageUrls.Add(new ProductImage { Url = imageUrlPath });
                     }
                 }
@@ -234,9 +232,6 @@ namespace BT_Buoi2.Controllers
             {
                 try
                 {
-                    // Gọi repository để cập nhật sản phẩm.
-                    // EF Core sẽ tự động phát hiện các ProductImage mới được thêm vào existingProduct.ImageUrls
-                    // và thêm chúng vào DB, đồng thời cập nhật các thuộc tính đã thay đổi của Product.
                     await _productRepository.UpdateAsync(existingProduct);
                     return RedirectToAction("Index");
                 }
@@ -258,8 +253,7 @@ namespace BT_Buoi2.Controllers
             return View(product); // Trả về 'product' từ form để giữ lại các giá trị người dùng đã nhập
         }
 
-        // --- Action: Xóa sản phẩm (GET) ---
-        // Hiển thị form xác nhận xóa
+        [Authorize(Roles = SD.Role_Admin)]
         public async Task<IActionResult> Delete(int id)
         {
             // Lấy sản phẩm cần xóa. Đảm bảo Include Category và ImageUrls để hiển thị đầy đủ thông tin
@@ -271,8 +265,7 @@ namespace BT_Buoi2.Controllers
             return View(product);
         }
 
-        // --- Action: Xóa sản phẩm (POST) ---
-        // Xử lý xóa sản phẩm khỏi cơ sở dữ liệu và các file ảnh vật lý
+        [Authorize(Roles = SD.Role_Admin)]
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

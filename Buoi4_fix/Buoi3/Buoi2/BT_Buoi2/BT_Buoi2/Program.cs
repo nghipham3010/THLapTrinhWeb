@@ -20,6 +20,14 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddScoped<IProductRepository, EFProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, EFCategoryRepository>();
+
+builder.Services.ConfigureApplicationCookie(option =>
+{
+    option.LoginPath = $"/Identity/Account/Login";
+    option.LoginPath = $"/Identity/Account/Logout";
+    option.LoginPath = $"/Identity/Account/AccessDenied";
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -33,6 +41,16 @@ app.UseRouting();
 
 app.UseAuthorization();
 app.MapRazorPages();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+    
+     name: "areas",
+    
+     pattern: "{area:exists}/{controller=ProductManager}/{action=Index}/{id?}"
+    );
+});
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

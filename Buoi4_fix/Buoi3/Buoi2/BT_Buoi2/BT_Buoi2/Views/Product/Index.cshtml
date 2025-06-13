@@ -1,49 +1,74 @@
 ﻿@model IEnumerable<BT_Buoi2.Models.Product>
-@* REMOVE: @inject BT_Buoi2.Repositories.ICategoryRepository CategoryRepository *@
 @{
     ViewData["Title"] = "Danh Sách Sản Phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml"; @* Đảm bảo trang này sử dụng _Layout.cshtml để có CSS và font *@
 }
-<h1>Danh Sách Sản Phẩm</h1>
-<p>
-    <a asp-action="Add" class="btn btn-primary">Thêm Sản Phẩm Mới</a>
-</p>
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>Tên</th>
-            <th>Giá</th>
-            <th>Mô Tả</th>
-            <th>Danh Mục</th>
-            <th>Hình Ảnh Chính</th>
-            <th>Hành Động</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var product in Model)
+
+<div class="product-list-container">
+    @* Container để căn giữa và tạo khoảng cách cho card *@
+    <div class="product-list-card">
+        @* Card để bọc bảng và các nút *@
+        <h1 class="text-center mb-4">@ViewData["Title"]</h1> @* Tiêu đề trang, căn giữa, margin dưới *@
+
+        <div class="add-product-btn-container">
+            @* Container cho nút thêm sản phẩm *@
+            <a asp-action="Add" class="btn btn-primary">Thêm Sản Phẩm Mới</a>
+        </div>
+
+        @if (Model != null && Model.Any())
         {
-            @* REMOVE: var category = CategoryRepository.GetAllCategories().FirstOrDefault(c => c.Id == product.CategoryId); *@
-            <tr>
-                <td>@product.Name</td>
-                <td>@product.Price.ToString("C")</td>
-                <td>@product.Description</td>
-                @* Access Category directly from the product model *@
-                <td>@(product.Category?.Name ?? "Không xác định")</td>
-                <td>
-                    @if (!string.IsNullOrEmpty(product.ImageUrl))
-                    {
-                        <img src="@product.ImageUrl" alt="Hình ảnh chính" style="width: 100px; height: auto;" />
-                    }
-                    else
-                    {
-                        <span>Không có hình ảnh</span>
-                    }
-                </td>
-                <td>
-                    <a asp-action="Display" asp-route-id="@product.Id" class="btn btn-info btn-sm">Xem</a>
-                    <a asp-action="Update" asp-route-id="@product.Id" class="btn btn-warning btn-sm">Sửa</a>
-                    <a asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger btn-sm">Xóa</a>
-                </td>
-            </tr>
+            <div class="table-responsive">
+                @* Đảm bảo bảng responsive trên màn hình nhỏ *@
+                <table class="table table-hover">
+                    @* Thay table-bordered table-striped bằng table-hover để có hiệu ứng hover *@
+                    <thead>
+                        <tr>
+                            <th>Tên</th>
+                            <th>Giá</th>
+                            <th>Mô Tả</th>
+                            <th>Danh Mục</th>
+                            <th>Hình Ảnh Chính</th>
+                            <th>Hành Động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var product in Model)
+                        {
+                            <tr>
+                                <td data-label="Tên">@product.Name</td>
+                                <td data-label="Giá">@product.Price.ToString("C")</td>
+                                <td data-label="Mô Tả">@product.Description</td>
+                                @* Access Category directly from the product model *@
+                                <td data-label="Danh Mục">@(product.Category?.Name ?? "Không xác định")</td>
+                                <td data-label="Hình Ảnh Chính">
+                                    @if (!string.IsNullOrEmpty(product.ImageUrl))
+                                    {
+                                        <img src="@product.ImageUrl" alt="Hình ảnh chính" class="img-fluid rounded-md shadow-sm" style="width: 100px; height: auto;" /> @* img-fluid để responsive ảnh *@
+                                    }
+                                    else
+                                    {
+                                        <span>Không có hình ảnh</span>
+                                    }
+                                </td>
+                                <td data-label="Hành Động">
+                                    <a asp-action="Display" asp-route-id="@product.Id" class="btn btn-info btn-sm">Xem</a>
+                                    <a asp-action="Update" asp-route-id="@product.Id" class="btn btn-warning btn-sm">Sửa</a>
+                                    <a asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger btn-sm">Xóa</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div> @* End table-responsive *@
         }
-    </tbody>
-</table>
+        else
+        {
+            <div class="alert alert-info text-center" role="alert">
+                <h4 class="alert-heading">Không có sản phẩm nào!</h4>
+                <p>Hiện tại không có sản phẩm nào trong danh sách. Hãy thêm một sản phẩm mới để bắt đầu.</p>
+                <hr>
+                <p class="mb-0">Bạn có thể click vào nút "Thêm Sản Phẩm Mới" ở trên để thêm sản phẩm đầu tiên.</p>
+            </div>
+        }
+    </div> @* End product-list-card *@
+</div> @* End product-list-container *@

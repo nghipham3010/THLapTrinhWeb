@@ -1,43 +1,22 @@
 ﻿/* ========================================================================
    CSS tùy chỉnh cho ứng dụng - BT_Buoi2
-   Bao gồm:
-   - Nền gradient động cho body
-   - Phong cách chung cho các card (đăng nhập/đăng ký)
-   - Phong cách cho các input và button
+   Theme: Anime Modern (Tông màu tối, gradient động, nổi bật)
    ======================================================================== */
 
 /* --- Cấu hình font chữ và nền gradient động cho toàn bộ trang --- */
 body {
     font-family: 'Inter', sans-serif; /* Font chữ hiện đại */
-    /* --- Tùy chọn nền Gradient Động (Chọn MỘT trong các tùy chọn dưới đây) --- */
-    /* ################################################################## */
-    /* === TÙY CHỌN 1: Nền Gradient Tươi Sáng & Ấm Áp (Màu sắc pha trộn mượt mà) === */
-    background: linear-gradient(135deg, #FF6B6B, #F5D300, #4ECDC4, #80ED99); /* Đỏ san hô, Vàng mật ong, Xanh ngọc, Xanh lá cây nhạt */
+    /* Nền Gradient Tươi Sáng & Ấm Áp (Màu sắc pha trộn mượt mà) - Đã cập nhật cho theme tối */
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); /* Deep blue/purple gradient */
     background-size: 400% 400%; /* Kích thước lớn hơn để tạo hiệu ứng chuyển động */
     animation: gradientAnimation 15s ease infinite; /* Hiệu ứng chuyển động đều, lặp vô hạn */
-    /* ################################################################## */
-    /* ################################################################## */
-    /* === TÙY CHỌN 2: Nền Gradient Xanh Dịu Mát (Tạo cảm giác bình yên, chuyên nghiệp) === */
-    /*
-    background: linear-gradient(135deg, #6dd5ed, #2193b0, #00B4DB, #0083B0);
-    background-size: 400% 400%;
-    animation: gradientAnimation 18s ease infinite;
-    */
-    /* ################################################################## */
-    /* ################################################################## */
-    /* === TÙY CHỌN 3: Nền Gradient Hoàng Hôn (Tông màu cam, tím, hồng ấm áp) === */
-    /*
-    background: linear-gradient(135deg, #FF7B54, #F7C59F, #FFD6A5, #FFB8B8, #E28D7D);
-    background-size: 400% 400%;
-    animation: gradientAnimation 20s ease infinite;
-    */
-    /* ################################################################## */
 
     display: flex; /* Dùng flexbox để căn giữa nội dung theo chiều dọc */
     flex-direction: column; /* Sắp xếp các phần tử theo cột */
     min-height: 100vh; /* Đảm bảo body chiếm toàn bộ chiều cao màn hình */
     margin: 0; /* Bỏ margin mặc định của body */
-    overflow: hidden; /* Tránh hiển thị scrollbar nếu kích thước background lớn */
+    overflow-x: hidden; /* Tránh scrollbar ngang nếu có nội dung tràn */
+    color: #e2e8f0; /* Màu chữ mặc định là xám nhạt */
 }
 
 /* Định nghĩa hiệu ứng chuyển động cho gradient */
@@ -45,141 +24,309 @@ body {
     0% {
         background-position: 0% 50%;
     }
-    /* Bắt đầu từ vị trí 0% ngang, 50% dọc */
+
     50% {
         background-position: 100% 50%;
     }
-    /* Di chuyển đến vị trí 100% ngang, 50% dọc */
+
     100% {
         background-position: 0% 50%;
     }
-    /* Quay lại vị trí ban đầu */
 }
 
-/* --- Cấu hình container để căn giữa card đăng nhập/đăng ký --- */
-.login-container {
+/* --- Cấu hình container để căn giữa card (login/register/home/product/category) --- */
+.login-container,
+.product-list-container {
     display: flex;
     justify-content: center; /* Căn giữa theo chiều ngang */
     align-items: center; /* Căn giữa theo chiều dọc */
     flex-grow: 1; /* Để container chiếm hết không gian trống */
-    padding: 20px 0; /* Thêm padding trên dưới cho responsive */
+    padding: 20px; /* Thêm padding trên dưới và hai bên */
+    box-sizing: border-box; /* Đảm bảo padding không làm tràn ra ngoài */
 }
 
-/* --- Cấu hình kiểu dáng cho card đăng nhập/đăng ký --- */
-.login-card {
-    border: none; /* Bỏ border mặc định của card */
-    border-radius: 15px; /* Bo tròn góc nhiều hơn */
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2); /* Đổ bóng mạnh hơn để nổi bật */
-    padding: 40px; /* Tăng padding bên trong card */
-    max-width: 480px; /* Giới hạn chiều rộng tối đa của card */
+/* --- Cấu hình kiểu dáng cho card (login/register) và (product list/category list) --- */
+.login-card,
+.product-list-card {
+    border: 2px solid rgba(79, 70, 229, 0.4); /* Border màu xanh indigo nhẹ */
+    border-radius: 15px; /* Bo tròn góc */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(79, 70, 229, 0.2); /* Đổ bóng mạnh hơn, thêm hiệu ứng phát sáng indigo */
+    padding: 40px;
+    max-width: 480px; /* Giới hạn chiều rộng tối đa của login-card */
     width: 100%; /* Đảm bảo card chiếm đủ chiều rộng trong giới hạn */
-    background-color: rgba(255, 255, 255, 0.95); /* Nền trắng hơi trong suốt */
+    background-color: rgba(30, 41, 59, 0.95); /* Nền xám đậm với độ trong suốt */
     backdrop-filter: blur(5px); /* Hiệu ứng làm mờ nền phía sau card */
-    transition: transform 0.3s ease-in-out; /* Hiệu ứng chuyển động khi tải trang */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease; /* Hiệu ứng chuyển động khi hover */
+    color: #e2e8f0; /* Màu chữ mặc định trong card là xám nhạt */
 }
 
-    .login-card:hover {
+/* Điều chỉnh riêng cho product-list-card (để nó rộng hơn) */
+.product-list-card {
+    max-width: 1200px; /* Giới hạn chiều rộng tối đa cho danh sách sản phẩm/danh mục */
+    padding: 30px; /* Giảm padding một chút so với login-card */
+}
+
+    .login-card:hover,
+    .product-list-card:hover {
         transform: translateY(-5px); /* Hiệu ứng nhích lên một chút khi di chuột vào card */
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(79, 70, 229, 0.4); /* Bóng đổ mạnh hơn khi hover */
     }
 
-    /* --- Phong cách cho các tiêu đề trong card --- */
-    .login-card h1 {
-        text-align: center;
-        color: #333;
-        margin-bottom: 25px;
-        font-weight: 700; /* Tiêu đề đậm hơn */
-        letter-spacing: 1px; /* Thêm khoảng cách chữ */
-    }
+/* --- Phong cách cho các tiêu đề chung và trong card --- */
+h1, h2, h3, h4, h5, h6 { /* Áp dụng cho tất cả các thẻ tiêu đề */
+    color: #a78bfa; /* Màu tím sáng cho tiêu đề (nhấn mạnh) */
+    font-weight: 700; /* Tiêu đề đậm hơn */
+    letter-spacing: 1px; /* Thêm khoảng cách chữ */
+}
 
-    .login-card h2 {
-        text-align: center;
-        color: #666;
-        margin-top: 15px;
-        margin-bottom: 35px;
-        font-size: 1.6rem; /* Kích thước font lớn hơn */
-        font-weight: 500;
-        position: relative; /* Để tạo đường kẻ dưới */
-        padding-bottom: 10px; /* Khoảng cách giữa chữ và đường kẻ */
-    }
+.login-card h1 {
+    text-align: center;
+    margin-bottom: 25px;
+}
 
-        .login-card h2::after { /* Tạo đường kẻ dưới tiêu đề h2 */
-            content: ''; /* Nội dung rỗng để tạo đường kẻ */
-            position: absolute;
-            left: 50%; /* Căn giữa đường kẻ */
-            bottom: 0; /* Đặt ở dưới cùng của h2 */
-            transform: translateX(-50%); /* Dịch chuyển để căn giữa thực sự */
-            width: 50px; /* Chiều rộng của đường kẻ */
-            height: 3px; /* Độ dày của đường kẻ */
-            background-color: #007bff; /* Màu xanh dương cho đường kẻ */
-            border-radius: 5px; /* Bo tròn góc đường kẻ */
-        }
+.login-card h2 {
+    text-align: center;
+    color: #cbd5e0; /* Màu xám sáng cho tiêu đề phụ */
+    margin-top: 15px;
+    margin-bottom: 35px;
+    font-size: 1.6rem;
+    font-weight: 500;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+    .login-card h2::after { /* Tạo đường kẻ dưới tiêu đề h2 */
+        content: '';
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        transform: translateX(-50%);
+        width: 50px;
+        height: 3px;
+        background-color: #6366f1; /* Màu xanh indigo cho đường kẻ */
+        border-radius: 5px;
+    }
 
 /* --- Phong cách cho các trường input (Email, Password, FullName, v.v.) --- */
 .form-floating label {
-    color: #777; /* Màu nhãn mờ hơn */
-    transition: all 0.2s ease; /* Hiệu ứng chuyển động cho label */
+    color: #94a3b8; /* Màu nhãn xám xanh */
+    transition: all 0.2s ease;
 }
 
 .form-floating input:focus ~ label,
 .form-floating input:not(:placeholder-shown) ~ label {
-    transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem); /* Nhãn nhỏ lại và nhích lên khi focus/có dữ liệu */
-    color: #007bff; /* Màu nhãn khi focus */
+    transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem); /* Nhãn nhỏ lại và nhích lên */
+    color: #818cf8; /* Màu nhãn indigo khi focus */
 }
 
 .form-control {
-    border-radius: 10px; /* Bo tròn input */
-    padding: 1.25rem 0.75rem; /* Tăng padding input */
-    border: 1px solid #ddd; /* Viền mỏng màu xám nhạt */
-    transition: border-color 0.2s ease, box-shadow 0.2s ease; /* Hiệu ứng chuyển động khi focus */
+    background-color: #2d3748; /* Nền input màu xám đậm */
+    color: #e2e8f0; /* Màu chữ trong input là xám nhạt */
+    border-radius: 10px;
+    padding: 1.25rem 0.75rem;
+    border: 1px solid #4a5568; /* Viền xám đậm */
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
     .form-control:focus {
-        border-color: #007bff; /* Viền xanh khi focus */
-        box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25); /* Hiệu ứng shadow khi focus */
+        border-color: #6366f1; /* Viền indigo khi focus */
+        box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25); /* Hiệu ứng shadow indigo khi focus */
     }
 
-/* --- Phong cách cho nút chính (Log in, Register) --- */
-.btn-primary {
-    background-color: #007bff; /* Màu xanh dương */
-    border-color: #007bff;
-    border-radius: 10px; /* Bo tròn nút nhiều hơn */
+/* --- Phong cách cho nút chung --- */
+.btn {
+    border-radius: 10px; /* Bo tròn các nút */
     font-weight: 600;
-    padding: 12px 25px; /* Tăng padding nút */
-    font-size: 1.1rem; /* Kích thước font nút lớn hơn */
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; /* Nhiều hiệu ứng chuyển động */
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3); /* Đổ bóng ban đầu cho tất cả các nút */
+    color: white; /* Màu chữ mặc định cho nút */
 }
 
-    .btn-primary:hover {
-        background-color: #0056b3; /* Màu xanh đậm hơn khi hover */
-        border-color: #0056b3;
-        transform: translateY(-3px); /* Nút nhích lên nhiều hơn khi hover */
-        box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3); /* Thêm đổ bóng khi hover */
+    .btn:hover {
+        transform: translateY(-3px); /* Nút nhích lên khi hover */
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* Bóng đổ mạnh hơn khi hover */
     }
+
+/* Phong cách cho từng loại nút Bootstrap */
+.btn-primary {
+    background-color: #6366f1;
+    border-color: #6366f1;
+}
+    /* Tailwind indigo-500 */
+    .btn-primary:hover {
+        background-color: #4f46e5;
+        border-color: #4f46e5;
+        box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+    }
+
+/* Nút nhỏ cho các hành động trong bảng */
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    margin-right: 5px;
+    border-radius: 8px; /* Bo tròn ít hơn cho nút nhỏ */
+    box-shadow: none; /* Không đổ bóng ban đầu cho nút nhỏ */
+}
+
+    .btn-sm:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+.btn-info {
+    background-color: #0ea5e9;
+    border-color: #0ea5e9;
+}
+    /* Tailwind sky-500 */
+    .btn-info:hover {
+        background-color: #0284c7;
+        border-color: #0284c7;
+    }
+
+.btn-warning {
+    background-color: #fbbf24;
+    border-color: #fbbf24;
+    color: #333;
+}
+    /* Tailwind amber-400, chữ đen cho tương phản */
+    .btn-warning:hover {
+        background-color: #f59e0b;
+        border-color: #f59e0b;
+    }
+
+.btn-danger {
+    background-color: #ef4444;
+    border-color: #ef4444;
+}
+    /* Tailwind red-500 */
+    .btn-danger:hover {
+        background-color: #dc2626;
+        border-color: #dc2626;
+    }
+
 
 /* --- Phong cách cho thông báo lỗi và các liên kết --- */
 .text-danger {
-    font-size: 0.875em; /* Kích thước font nhỏ hơn cho lỗi */
-    color: #dc3545 !important; /* Đảm bảo màu đỏ */
-    margin-top: 5px; /* Khoảng cách trên cho thông báo lỗi */
+    font-size: 0.875em;
+    color: #f87171 !important; /* Màu đỏ sáng hơn cho nền tối */
+    margin-top: 5px;
 }
 
 .links-container p {
     text-align: center;
-    margin-top: 25px; /* Tăng khoảng cách trên */
-    margin-bottom: 10px; /* Giảm khoảng cách giữa các dòng */
+    margin-top: 25px;
+    margin-bottom: 10px;
 }
 
 .links-container a {
-    color: #007bff; /* Màu xanh dương cho link */
-    text-decoration: none; /* Bỏ gạch chân mặc định */
+    color: #818cf8; /* Màu indigo cho liên kết */
+    text-decoration: none;
     font-weight: 500;
-    transition: color 0.2s ease, text-decoration 0.2s ease; /* Hiệu ứng chuyển động cho link */
+    transition: color 0.2s ease, text-decoration 0.2s ease;
 }
 
     .links-container a:hover {
-        text-decoration: underline; /* Gạch chân khi hover */
-        color: #0056b3; /* Màu xanh đậm hơn khi hover */
+        text-decoration: underline;
+        color: #6366f1; /* Màu indigo đậm hơn khi hover */
     }
+
+/* --- Style cho trang danh sách sản phẩm/danh mục (Index.cshtml, Category Index.cshtml) --- */
+.product-list-container {
+    /* Đã định nghĩa ở trên, áp dụng chung với .login-container */
+}
+
+.product-list-card {
+    /* Đã định nghĩa ở trên, áp dụng chung với .login-card, sau đó override max-width và padding */
+    background-color: rgba(30, 41, 59, 0.98); /* Nền card danh sách hơi đục hơn */
+}
+
+    .product-list-card h1 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #a78bfa; /* Màu tím sáng cho tiêu đề chính */
+    }
+
+    .product-list-card .table {
+        margin-top: 20px;
+        border-radius: 10px;
+        overflow: hidden; /* Quan trọng để bo tròn góc bảng */
+        background-color: #2d3748; /* Nền bảng màu xám đậm */
+        color: #e2e8f0; /* Màu chữ trong bảng */
+    }
+
+        .product-list-card .table thead th {
+            background-color: #4a5568; /* Màu xám đậm cho header bảng */
+            color: white;
+            font-weight: 600;
+            border: none;
+            padding: 12px 15px;
+            vertical-align: middle;
+        }
+
+        .product-list-card .table tbody td {
+            vertical-align: middle;
+            padding: 10px 15px;
+            border-color: #4a5568; /* Màu border xám đậm giữa các ô */
+        }
+
+        .product-list-card .table tbody tr:nth-of-type(odd) {
+            background-color: rgba(0, 0, 0, 0.1); /* Sọc nhẹ màu đen cho hàng lẻ */
+        }
+
+        .product-list-card .table img {
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+/* Nút "Thêm Sản Phẩm Mới" (trong list view) */
+.add-product-btn-container {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+    .add-product-btn-container .btn {
+        /* Kế thừa từ .btn chung */
+    }
+
+/* Thông báo cảnh báo (alert) */
+.alert {
+    border-radius: 8px; /* Bo tròn góc alert */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2); /* Đổ bóng nhẹ cho alert */
+}
+
+.alert-info {
+    background-color: #3f51b5; /* Màu xanh đậm cho info alert */
+    border-color: #303f9f;
+    color: white;
+}
+
+.alert-success {
+    background-color: #4caf50; /* Màu xanh lá cây cho success alert */
+    border-color: #388e3c;
+    color: white;
+}
+
+.alert-heading {
+    color: white; /* Đảm bảo tiêu đề trong alert là trắng */
+}
+
+.alert a {
+    color: #e0f7fa; /* Màu liên kết sáng hơn trong alert */
+    text-decoration: underline;
+}
+
+.alert .btn-close {
+    color: white; /* Màu nút đóng alert */
+    filter: invert(1); /* Đảo ngược màu để hiển thị tốt trên nền tối */
+    opacity: 0.8;
+}
+
+    .alert .btn-close:hover {
+        opacity: 1;
+    }
+
 
 /* --- Responsive adjustments (điều chỉnh cho màn hình nhỏ hơn) --- */
 @media (max-width: 768px) {
@@ -188,8 +335,52 @@ body {
         margin: 0 15px; /* Thêm margin ngang để tránh dính vào cạnh */
     }
 
-    /* Ẩn phần "Use another service" trên mobile để form gọn hơn */
-    .col-md-6.col-md-offset-2 {
-        display: none;
+    /* Ẩn phần "Use another service" trên mobile để form gọn hơn (nếu có) */
+    .col-md-6.col-md-offset-2.d-none.d-md-block {
+        display: none !important; /* Đảm bảo ẩn hoàn toàn */
     }
+
+    .product-list-card {
+        padding: 20px;
+        margin: 0 15px;
+    }
+
+        .product-list-card .table thead {
+            display: none; /* Ẩn header bảng trên màn hình nhỏ */
+        }
+
+        .product-list-card .table tbody, .product-list-card .table tr, .product-list-card .table td {
+            display: block; /* Biến đổi hàng/ô thành block */
+            width: 100%;
+        }
+
+        .product-list-card .table tr {
+            margin-bottom: 15px;
+            border: 1px solid #4a5568; /* Border xám đậm cho hàng trên mobile */
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 10px;
+            background-color: #2d3748; /* Nền xám đậm cho hàng trên mobile */
+        }
+
+        .product-list-card .table td {
+            text-align: right; /* Căn phải nội dung ô */
+            padding-left: 50%; /* Tạo không gian cho label ảo */
+            position: relative;
+        }
+
+            .product-list-card .table td::before {
+                content: attr(data-label); /* Hiển thị label từ thuộc tính data-label */
+                position: absolute;
+                left: 10px;
+                width: calc(50% - 20px);
+                text-align: left;
+                font-weight: 600;
+                color: #a0aec0; /* Màu xám xanh cho label trên mobile */
+            }
+
+            .product-list-card .table td:last-child {
+                text-align: center; /* Căn giữa nút hành động */
+                padding-left: 0;
+            }
 }

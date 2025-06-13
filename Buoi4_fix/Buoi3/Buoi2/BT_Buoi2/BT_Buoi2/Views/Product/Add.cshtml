@@ -1,65 +1,90 @@
 ﻿@model BT_Buoi2.Models.Product
 
 @{
-    ViewData["Title"] = "Thêm sản phẩm";
+    ViewData["Title"] = "Thêm Sản Phẩm Mới"; // Cập nhật tiêu đề hiển thị
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Đảm bảo sử dụng _Layout.cshtml để có CSS và font
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="login-container">
+    @* Sử dụng class để căn giữa và có nền động *@
+    <div class="login-card">
+        @* Sử dụng class card để tạo hiệu ứng nổi bật *@
+        <h1 class="text-center mb-4">@ViewData["Title"]</h1> @* Tiêu đề chính của form *@
+        <hr />
 
-<form asp-action="Add" enctype="multipart/form-data">
-    @* <<-- QUAN TRỌNG: enctype="multipart/form-data" *@
-    <div class="form-group">
-        <label asp-for="Name" class="control-label"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
-    </div>
+        <form asp-action="Add" enctype="multipart/form-data">
+            @* <<-- QUAN TRỌNG: enctype="multipart/form-data" để gửi file *@
+            <div asp-validation-summary="All" class="text-danger mb-3"></div> @* Hiển thị tất cả lỗi validation *@
 
-    <div class="form-group">
-        <label asp-for="Price" class="control-label"></label>
-        <input asp-for="Price" class="form-control" />
-        <span asp-validation-for="Price" class="text-danger"></span>
-    </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Name" class="form-control" placeholder="Tên Sản Phẩm" aria-required="true" />
+                <label asp-for="Name">Tên Sản Phẩm</label>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
 
-    <div class="form-group">
-        <label asp-for="Description" class="control-label"></label>
-        <textarea asp-for="Description" class="form-control"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Price" class="form-control" placeholder="Giá" aria-required="true" />
+                <label asp-for="Price">Giá</label>
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
 
-    <div class="form-group">
-        <label asp-for="CategoryId" class="control-label"></label>
-        <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories"></select>
-        <span asp-validation-for="CategoryId" class="text-danger"></span>
-    </div>
+            <div class="form-floating mb-3">
+                <textarea asp-for="Description" class="form-control" placeholder="Mô Tả" style="height: 100px;"></textarea> @* Tăng chiều cao cho textarea *@
+                <label asp-for="Description">Mô Tả</label>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
 
-    <div class="form-group">
-        <label for="imageUrl" class="control-label">Hình ảnh chính</label>
-        <input type="file" id="imageUrl" name="imageUrl" class="form-control" /> @* <<-- name="imageUrl" khớp với tham số IFormFile imageUrl trong controller *@
-        <span asp-validation-for="ImageUrl" class="text-danger"></span>
-        @if (!string.IsNullOrEmpty(Model?.ImageUrl))
-        {
-            <img src="@Model.ImageUrl" alt="Hình ảnh chính" width="100" />
-        }
-    </div>
+            <div class="form-group mb-3">
+                @* Không dùng form-floating cho select do cấu trúc html khác *@
+                <label asp-for="CategoryId" class="control-label text-white mb-2">Danh Mục</label> @* Thêm text-white để nổi bật *@
+                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories"></select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
 
-    <div class="form-group">
-        <label for="imageUrls" class="control-label">Hình ảnh bổ sung</label>
-        <input type="file" id="imageUrls" name="imageUrls" multiple class="form-control" /> @* <<-- name="imageUrls" khớp với List<IFormFile> imageUrls và có 'multiple' *@
-        @* Hiển thị ảnh phụ hiện có (chỉ cho trang Update/Display) *@
-        @if (Model != null && Model.ImageUrls != null && Model.ImageUrls.Any())
-        {
-            <div class="mt-2">
-                <h6>Ảnh hiện có:</h6>
-                @foreach (var img in Model.ImageUrls)
+            <div class="form-group mb-3">
+                <label for="imageUrl" class="control-label text-white mb-2">Hình ảnh chính</label>
+                <input type="file" id="imageUrl" name="imageUrl" class="form-control" /> @* name="imageUrl" khớp với tham số IFormFile imageUrl trong controller *@
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                @* Hiển thị ảnh hiện có khi ở trang Update *@
+                @if (Model != null && !string.IsNullOrEmpty(Model.ImageUrl))
                 {
-                    <img src="@img.Url" alt="Ảnh phụ" width="80" style="margin-right: 5px;" />
-                    @* Bạn có thể thêm nút xóa cho từng ảnh phụ ở đây nếu muốn *@
+                    <div class="mt-2 text-center">
+                        <img src="@Model.ImageUrl" alt="Hình ảnh chính hiện có" class="img-thumbnail" style="width: 150px; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);" />
+                    </div>
                 }
             </div>
-        }
-    </div>
 
-    <div class="form-group">
-        <input type="submit" value="Add" class="btn btn-primary" />
+            <div class="form-group mb-4">
+                <label for="imageUrls" class="control-label text-white mb-2">Hình ảnh bổ sung</label>
+                <input type="file" id="imageUrls" name="imageUrls" multiple class="form-control" /> @* name="imageUrls" khớp với List<IFormFile> imageUrls và có 'multiple' *@
+                @* Hiển thị ảnh phụ hiện có (chỉ cho trang Update/Display) *@
+                @if (Model != null && Model.ImageUrls != null && Model.ImageUrls.Any())
+                {
+                    <div class="mt-3">
+                        <h6 class="text-indigo-300 font-semibold mb-2">Ảnh bổ sung hiện có:</h6>
+                        <div class="flex flex-wrap gap-2">
+                            @* Dùng flexbox để sắp xếp ảnh *@
+                            @foreach (var img in Model.ImageUrls)
+                            {
+                                <img src="@img.Url" alt="Ảnh phụ" class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);" />
+                                @* Bạn có thể thêm nút xóa cho từng ảnh phụ ở đây nếu muốn *@
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="form-group d-grid gap-2">
+                @* d-grid gap-2 để nút chiếm toàn bộ chiều rộng và có khoảng cách *@
+                <input type="submit" value="Thêm Sản Phẩm" class="btn btn-primary btn-lg" /> @* Tăng kích thước nút *@
+            </div>
+            <p class="mt-4 text-center">
+                <a asp-action="Index" class="text-indigo-400 hover:underline">Quay lại danh sách sản phẩm</a>
+            </p>
+        </form>
     </div>
-</form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" /> @* Kích hoạt validation client-side *@
+}
