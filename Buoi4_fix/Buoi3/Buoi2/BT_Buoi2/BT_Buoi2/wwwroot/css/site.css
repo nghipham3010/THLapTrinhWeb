@@ -21,17 +21,9 @@ body {
 
 /* Định nghĩa hiệu ứng chuyển động cho gradient */
 @keyframes gradientAnimation {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
-    }
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 /* --- Cấu hình container để căn giữa card (login/register/home/product/category) --- */
@@ -66,11 +58,11 @@ body {
     padding: 30px; /* Giảm padding một chút so với login-card */
 }
 
-    .login-card:hover,
-    .product-list-card:hover {
-        transform: translateY(-5px); /* Hiệu ứng nhích lên một chút khi di chuột vào card */
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(79, 70, 229, 0.4); /* Bóng đổ mạnh hơn khi hover */
-    }
+.login-card:hover,
+.product-list-card:hover {
+    transform: translateY(-5px); /* Hiệu ứng nhích lên một chút khi di chuột vào card */
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(79, 70, 229, 0.4); /* Bóng đổ mạnh hơn khi hover */
+}
 
 /* --- Phong cách cho các tiêu đề chung và trong card --- */
 h1, h2, h3, h4, h5, h6 { /* Áp dụng cho tất cả các thẻ tiêu đề */
@@ -78,12 +70,12 @@ h1, h2, h3, h4, h5, h6 { /* Áp dụng cho tất cả các thẻ tiêu đề */
     font-weight: 700; /* Tiêu đề đậm hơn */
     letter-spacing: 1px; /* Thêm khoảng cách chữ */
 }
-
-.login-card h1 {
+.login-card h1 { text-align: center; margin-bottom: 25px; }
+.product-list-card h1 { /* Điều chỉnh riêng cho h1 trong product list card */
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
+    color: #a78bfa; /* Màu tím sáng cho tiêu đề chính */
 }
-
 .login-card h2 {
     text-align: center;
     color: #cbd5e0; /* Màu xám sáng cho tiêu đề phụ */
@@ -94,18 +86,17 @@ h1, h2, h3, h4, h5, h6 { /* Áp dụng cho tất cả các thẻ tiêu đề */
     position: relative;
     padding-bottom: 10px;
 }
-
-    .login-card h2::after { /* Tạo đường kẻ dưới tiêu đề h2 */
-        content: '';
-        position: absolute;
-        left: 50%;
-        bottom: 0;
-        transform: translateX(-50%);
-        width: 50px;
-        height: 3px;
-        background-color: #6366f1; /* Màu xanh indigo cho đường kẻ */
-        border-radius: 5px;
-    }
+.login-card h2::after { /* Tạo đường kẻ dưới tiêu đề h2 */
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background-color: #6366f1; /* Màu xanh indigo cho đường kẻ */
+    border-radius: 5px;
+}
 
 /* --- Phong cách cho các trường input (Email, Password, FullName, v.v.) --- */
 .form-floating label {
@@ -114,7 +105,11 @@ h1, h2, h3, h4, h5, h6 { /* Áp dụng cho tất cả các thẻ tiêu đề */
 }
 
 .form-floating input:focus ~ label,
-.form-floating input:not(:placeholder-shown) ~ label {
+.form-floating input:not(:placeholder-shown) ~ label,
+.form-floating textarea:focus ~ label, /* Thêm cho textarea */
+.form-floating textarea:not(:placeholder-shown) ~ label, /* Thêm cho textarea */
+.form-floating select:focus ~ label, /* Thêm cho select */
+.form-floating select:not(:placeholder-shown) ~ label { /* Thêm cho select */
     transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem); /* Nhãn nhỏ lại và nhích lên */
     color: #818cf8; /* Màu nhãn indigo khi focus */
 }
@@ -128,10 +123,20 @@ h1, h2, h3, h4, h5, h6 { /* Áp dụng cho tất cả các thẻ tiêu đề */
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-    .form-control:focus {
-        border-color: #6366f1; /* Viền indigo khi focus */
-        box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25); /* Hiệu ứng shadow indigo khi focus */
-    }
+.form-control:focus {
+    border-color: #6366f1; /* Viền indigo khi focus */
+    box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25); /* Hiệu ứng shadow indigo khi focus */
+}
+
+/* Điều chỉnh riêng cho select box (vì nó không dùng form-floating trực tiếp) */
+.form-group select.form-control {
+    padding: 0.675rem 0.75rem; /* Điều chỉnh padding cho select để phù hợp hơn */
+    height: calc(2.25rem + 1.25rem); /* Điều chỉnh chiều cao cho select (2.25rem là chiều cao mặc định của input, 1.25rem là padding) */
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23e2e8f0' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e"); /* Custom dropdown arrow */
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+}
 
 /* --- Phong cách cho nút chung --- */
 .btn {
@@ -144,22 +149,14 @@ h1, h2, h3, h4, h5, h6 { /* Áp dụng cho tất cả các thẻ tiêu đề */
     color: white; /* Màu chữ mặc định cho nút */
 }
 
-    .btn:hover {
-        transform: translateY(-3px); /* Nút nhích lên khi hover */
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* Bóng đổ mạnh hơn khi hover */
-    }
+.btn:hover {
+    transform: translateY(-3px); /* Nút nhích lên khi hover */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* Bóng đổ mạnh hơn khi hover */
+}
 
 /* Phong cách cho từng loại nút Bootstrap */
-.btn-primary {
-    background-color: #6366f1;
-    border-color: #6366f1;
-}
-    /* Tailwind indigo-500 */
-    .btn-primary:hover {
-        background-color: #4f46e5;
-        border-color: #4f46e5;
-        box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
-    }
+.btn-primary { background-color: #6366f1; border-color: #6366f1; } /* Tailwind indigo-500 */
+.btn-primary:hover { background-color: #4f46e5; border-color: #4f46e5; box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3); }
 
 /* Nút nhỏ cho các hành động trong bảng */
 .btn-sm {
@@ -169,42 +166,29 @@ h1, h2, h3, h4, h5, h6 { /* Áp dụng cho tất cả các thẻ tiêu đề */
     border-radius: 8px; /* Bo tròn ít hơn cho nút nhỏ */
     box-shadow: none; /* Không đổ bóng ban đầu cho nút nhỏ */
 }
-
-    .btn-sm:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    }
-
-.btn-info {
-    background-color: #0ea5e9;
-    border-color: #0ea5e9;
+.btn-sm:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
-    /* Tailwind sky-500 */
-    .btn-info:hover {
-        background-color: #0284c7;
-        border-color: #0284c7;
-    }
 
-.btn-warning {
-    background-color: #fbbf24;
-    border-color: #fbbf24;
-    color: #333;
-}
-    /* Tailwind amber-400, chữ đen cho tương phản */
-    .btn-warning:hover {
-        background-color: #f59e0b;
-        border-color: #f59e0b;
-    }
+.btn-info { background-color: #0ea5e9; border-color: #0ea5e9; } /* Tailwind sky-500 */
+.btn-info:hover { background-color: #0284c7; border-color: #0284c7; }
 
-.btn-danger {
-    background-color: #ef4444;
-    border-color: #ef4444;
+.btn-warning { background-color: #fbbf24; border-color: #fbbf24; color: #333; } /* Tailwind amber-400, chữ đen cho tương phản */
+.btn-warning:hover { background-color: #f59e0b; border-color: #f59e0b; }
+
+.btn-danger { background-color: #ef4444; border-color: #ef4444; } /* Tailwind red-500 */
+.btn-danger:hover { background-color: #dc2626; border-color: #dc2626; }
+
+.btn-secondary { /* Áp dụng cho nút Hủy */
+    background-color: #6b7280; /* Màu xám */
+    border-color: #6b7280;
+    color: #e2e8f0;
 }
-    /* Tailwind red-500 */
-    .btn-danger:hover {
-        background-color: #dc2626;
-        border-color: #dc2626;
-    }
+.btn-secondary:hover {
+    background-color: #4b5563;
+    border-color: #4b5563;
+}
 
 
 /* --- Phong cách cho thông báo lỗi và các liên kết --- */
@@ -227,58 +211,45 @@ h1, h2, h3, h4, h5, h6 { /* Áp dụng cho tất cả các thẻ tiêu đề */
     transition: color 0.2s ease, text-decoration 0.2s ease;
 }
 
-    .links-container a:hover {
-        text-decoration: underline;
-        color: #6366f1; /* Màu indigo đậm hơn khi hover */
-    }
+.links-container a:hover {
+    text-decoration: underline;
+    color: #6366f1; /* Màu indigo đậm hơn khi hover */
+}
 
 /* --- Style cho trang danh sách sản phẩm/danh mục (Index.cshtml, Category Index.cshtml) --- */
-.product-list-container {
-    /* Đã định nghĩa ở trên, áp dụng chung với .login-container */
+/* (Các class .product-list-container và .product-list-card đã được định nghĩa ở trên) */
+
+.product-list-card .table {
+    margin-top: 20px;
+    border-radius: 10px;
+    overflow: hidden; /* Quan trọng để bo tròn góc bảng */
+    background-color: #2d3748; /* Nền bảng màu xám đậm */
+    color: #e2e8f0; /* Màu chữ trong bảng */
 }
 
-.product-list-card {
-    /* Đã định nghĩa ở trên, áp dụng chung với .login-card, sau đó override max-width và padding */
-    background-color: rgba(30, 41, 59, 0.98); /* Nền card danh sách hơi đục hơn */
+.product-list-card .table thead th {
+    background-color: #4a5568; /* Màu xám đậm cho header bảng */
+    color: white;
+    font-weight: 600;
+    border: none;
+    padding: 12px 15px;
+    vertical-align: middle;
 }
 
-    .product-list-card h1 {
-        text-align: center;
-        margin-bottom: 30px;
-        color: #a78bfa; /* Màu tím sáng cho tiêu đề chính */
-    }
+.product-list-card .table tbody td {
+    vertical-align: middle;
+    padding: 10px 15px;
+    border-color: #4a5568; /* Màu border xám đậm giữa các ô */
+}
 
-    .product-list-card .table {
-        margin-top: 20px;
-        border-radius: 10px;
-        overflow: hidden; /* Quan trọng để bo tròn góc bảng */
-        background-color: #2d3748; /* Nền bảng màu xám đậm */
-        color: #e2e8f0; /* Màu chữ trong bảng */
-    }
+.product-list-card .table tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.1); /* Sọc nhẹ màu đen cho hàng lẻ */
+}
 
-        .product-list-card .table thead th {
-            background-color: #4a5568; /* Màu xám đậm cho header bảng */
-            color: white;
-            font-weight: 600;
-            border: none;
-            padding: 12px 15px;
-            vertical-align: middle;
-        }
-
-        .product-list-card .table tbody td {
-            vertical-align: middle;
-            padding: 10px 15px;
-            border-color: #4a5568; /* Màu border xám đậm giữa các ô */
-        }
-
-        .product-list-card .table tbody tr:nth-of-type(odd) {
-            background-color: rgba(0, 0, 0, 0.1); /* Sọc nhẹ màu đen cho hàng lẻ */
-        }
-
-        .product-list-card .table img {
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
+.product-list-card .table img {
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
 
 /* Nút "Thêm Sản Phẩm Mới" (trong list view) */
 .add-product-btn-container {
@@ -286,46 +257,131 @@ h1, h2, h3, h4, h5, h6 { /* Áp dụng cho tất cả các thẻ tiêu đề */
     margin-bottom: 25px;
 }
 
-    .add-product-btn-container .btn {
-        /* Kế thừa từ .btn chung */
-    }
-
 /* Thông báo cảnh báo (alert) */
 .alert {
     border-radius: 8px; /* Bo tròn góc alert */
     box-shadow: 0 5px 15px rgba(0,0,0,0.2); /* Đổ bóng nhẹ cho alert */
 }
-
 .alert-info {
     background-color: #3f51b5; /* Màu xanh đậm cho info alert */
     border-color: #303f9f;
     color: white;
 }
-
 .alert-success {
     background-color: #4caf50; /* Màu xanh lá cây cho success alert */
     border-color: #388e3c;
     color: white;
 }
-
 .alert-heading {
     color: white; /* Đảm bảo tiêu đề trong alert là trắng */
 }
-
 .alert a {
     color: #e0f7fa; /* Màu liên kết sáng hơn trong alert */
     text-decoration: underline;
 }
-
 .alert .btn-close {
     color: white; /* Màu nút đóng alert */
     filter: invert(1); /* Đảo ngược màu để hiển thị tốt trên nền tối */
     opacity: 0.8;
 }
+.alert .btn-close:hover {
+    opacity: 1;
+}
 
-    .alert .btn-close:hover {
-        opacity: 1;
-    }
+/* --- Bổ sung cho Product Cards (dùng trong Product/Index.cshtml) --- */
+.grid {
+    display: grid;
+    /* Các định nghĩa grid-cols-x sẽ đến từ Bootstrap/Tailwind tùy bạn dùng */
+    gap: 1.5rem; /* Tương đương gap-6 trong Tailwind */
+}
+
+.product-card {
+    border: 1px solid rgba(79, 70, 229, 0.2); /* Border nhẹ cho từng product card */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* Bóng đổ cho từng card */
+    background-color: #1f2937; /* Màu nền cho product card (bg-gray-800) */
+    color: #e2e8f0; /* Màu chữ mặc định trong product card */
+    border-radius: 0.5rem; /* rounded-lg */
+    overflow: hidden;
+    transform: transition 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Đảm bảo nội dung trải đều */
+}
+
+.product-card:hover {
+    transform: scale(1.03); /* Phóng to nhẹ khi hover */
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6); /* Bóng đổ mạnh hơn khi hover */
+}
+
+.product-card img {
+    width: 100%;
+    height: 16rem; /* h-64 */
+    object-fit: cover;
+    border-radius: 0.5rem 0.5rem 0 0; /* Bo tròn chỉ góc trên */
+}
+
+.product-card h3 {
+    color: #a78bfa; /* Tiêu đề card màu tím sáng */
+    font-size: 1.3rem; /* Kích thước font */
+    margin-bottom: 0.5rem;
+    overflow: hidden; /* Đảm bảo tiêu đề dài không tràn */
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.product-card p {
+    color: #cbd5e0; /* Màu chữ thông thường trong card */
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.product-card .text-indigo-300 {
+    color: #a5b4fc; /* Màu cho thể loại/danh mục */
+}
+
+.product-card .text-yellow-400 {
+    color: #fcd34d; /* Màu vàng cho giá/rating */
+    font-weight: bold;
+}
+
+.product-card .flex-wrap.gap-2 { /* Container cho các nút hành động trong card */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem; /* Khoảng cách giữa các nút */
+    justify-content: center; /* Căn giữa các nút */
+}
+
+.product-card .flex-wrap .btn-sm {
+    flex-basis: calc(50% - 0.25rem); /* Mỗi nút chiếm gần 50% width trừ gap */
+    max-width: calc(50% - 0.25rem);
+    text-align: center;
+    padding: 0.5rem 0.75rem; /* Padding cho nút nhỏ */
+    font-size: 0.8rem;
+}
+
+/* Điều chỉnh khoảng cách trong các form group của Add/Update Product */
+.form-group.mb-3 label.control-label.text-white.mb-2 {
+    display: block; /* Đảm bảo label chiếm dòng riêng */
+    margin-bottom: 0.5rem !important; /* Điều chỉnh khoảng cách dưới cho label */
+}
+
+.form-group.mb-3 .form-control {
+    margin-top: 0.25rem; /* Điều chỉnh khoảng cách trên cho input/select */
+}
+
+/* Đảm bảo hình ảnh trong form Add/Update không quá lớn */
+.form-group img.img-thumbnail {
+    max-width: 150px; /* Giảm kích thước ảnh thumbnail trong form */
+    height: auto;
+    display: block; /* Căn giữa ảnh */
+    margin: 10px auto; /* Căn giữa ảnh và thêm khoảng cách */
+}
+
+.form-group .flex-wrap.gap-2 img.img-thumbnail {
+    width: 80px !important; /* Điều chỉnh kích thước ảnh phụ trong form */
+    height: 80px !important;
+    object-fit: cover;
+}
 
 
 /* --- Responsive adjustments (điều chỉnh cho màn hình nhỏ hơn) --- */
@@ -345,42 +401,70 @@ h1, h2, h3, h4, h5, h6 { /* Áp dụng cho tất cả các thẻ tiêu đề */
         margin: 0 15px;
     }
 
-        .product-list-card .table thead {
-            display: none; /* Ẩn header bảng trên màn hình nhỏ */
-        }
+    /* Bảng responsive cho danh sách (nếu vẫn dùng bảng cho Category) */
+    .product-list-card .table thead {
+        display: none; /* Ẩn header bảng trên màn hình nhỏ */
+    }
+    .product-list-card .table tbody, .product-list-card .table tr, .product-list-card .table td {
+        display: block; /* Biến đổi hàng/ô thành block */
+        width: 100%;
+    }
+    .product-list-card .table tr {
+        margin-bottom: 15px;
+        border: 1px solid #4a5568; /* Border xám đậm cho hàng trên mobile */
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        padding: 10px;
+        background-color: #2d3748; /* Nền xám đậm cho hàng trên mobile */
+    }
+    .product-list-card .table td {
+        text-align: right; /* Căn phải nội dung ô */
+        padding-left: 50%; /* Tạo không gian cho label ảo */
+        position: relative;
+    }
+    .product-list-card .table td::before {
+        content: attr(data-label); /* Hiển thị label từ thuộc tính data-label */
+        position: absolute;
+        left: 10px;
+        width: calc(50% - 20px);
+        text-align: left;
+        font-weight: 600;
+        color: #a0aec0; /* Màu xám xanh cho label trên mobile */
+    }
+    .product-list-card .table td:last-child {
+        text-align: center; /* Căn giữa nút hành động */
+        padding-left: 0;
+    }
 
-        .product-list-card .table tbody, .product-list-card .table tr, .product-list-card .table td {
-            display: block; /* Biến đổi hàng/ô thành block */
-            width: 100%;
-        }
+    /* Điều chỉnh grid cho màn hình rất nhỏ */
+    .grid-cols-1 {
+        grid-template-columns: 1fr;
+    }
+    .sm\:grid-cols-2 {
+        /* This media query will be for sm screens and up */
+        /* If you want 1 column on all smaller screens, no need for sm:grid-cols-2 here */
+    }
+}
 
-        .product-list-card .table tr {
-            margin-bottom: 15px;
-            border: 1px solid #4a5568; /* Border xám đậm cho hàng trên mobile */
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            padding: 10px;
-            background-color: #2d3748; /* Nền xám đậm cho hàng trên mobile */
-        }
-
-        .product-list-card .table td {
-            text-align: right; /* Căn phải nội dung ô */
-            padding-left: 50%; /* Tạo không gian cho label ảo */
-            position: relative;
-        }
-
-            .product-list-card .table td::before {
-                content: attr(data-label); /* Hiển thị label từ thuộc tính data-label */
-                position: absolute;
-                left: 10px;
-                width: calc(50% - 20px);
-                text-align: left;
-                font-weight: 600;
-                color: #a0aec0; /* Màu xám xanh cho label trên mobile */
-            }
-
-            .product-list-card .table td:last-child {
-                text-align: center; /* Căn giữa nút hành động */
-                padding-left: 0;
-            }
+/* Các media query cho Tailwind CSS sẽ tự động áp dụng các lớp như sm:grid-cols-2, md:grid-cols-3 */
+/* Nếu bạn không dùng Tailwind JIT, bạn cần tự định nghĩa các media query cho grid */
+@media (min-width: 640px) { /* sm breakpoint */
+    .grid-cols-sm-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+@media (min-width: 768px) { /* md breakpoint */
+    .grid-cols-md-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+@media (min-width: 1024px) { /* lg breakpoint */
+    .grid-cols-lg-4 {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+@media (min-width: 1280px) { /* xl breakpoint */
+    .grid-cols-xl-5 {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
 }
